@@ -4,7 +4,7 @@ import cors from 'cors'; // for the server
 import uuidv4 from 'uuid/v4'; // for generating unique id's
 
 // create a variable with express as it's value
-const app = express(); // initiate express
+const app = express(); // initiate express app
 app.use(cors()) // use cors
 app.use(express.json()); // support JSON parsing
 
@@ -27,14 +27,14 @@ app.locals.notes = [
 ];
 
 // get request method
-app.get('/api/v1/notes', (request, response) => { // listen for get requests within this  url
+app.get('/api/v1/notes', (request, response) => { // listen for get requests within this  path then execute handler
   const notes = app.locals.notes // create a notes variable with local notes as master copy
   return response.status(200).json({ notes }) // return a response with a status code of 200
   // use json to parse the notes and include it with the response
 });
 
 // post request method
-app.post('/api/v1/notes', (request, response) => { // listen for post requests within this url
+app.post('/api/v1/notes', (request, response) => { // listen for post requests within this path then execute handler
   const id = uuidv4(); // generate a unique id 
   const { listItems, title } = request.body // create listItems and title variables from the request body
 
@@ -56,7 +56,7 @@ app.post('/api/v1/notes', (request, response) => { // listen for post requests w
 })
 
 // delete request method
-app.delete('/api/v1/notes/:id', (request, response) => { // listen for delete requests within this url, id being the note identifier for deletion
+app.delete('/api/v1/notes/:id', (request, response) => { // listen for delete requests within this path then execute handler, id being the note identifier for deletion
   const id = request.params.id; // take the id from request parameters
   const newNotes = app.locals.notes.filter(note => note.id !== id); // filter out ids that matched the param recieved
 
@@ -70,7 +70,7 @@ app.delete('/api/v1/notes/:id', (request, response) => { // listen for delete re
 })
 
 // get request method
-app.get('/api/v1/notes/:id', (request, response) => {// listen for get requests within this url, id being the notes identifier for deletion
+app.get('/api/v1/notes/:id', (request, response) => {// listen for get requests within this path then execute handler, id being the notes identifier for deletion
   const id = request.params.id; // take the id from request parameters
   const note = app.locals.notes.find(note => note.id === id); // find the note within locals that matches the requested id
   
@@ -84,7 +84,7 @@ app.get('/api/v1/notes/:id', (request, response) => {// listen for get requests 
 })
 
 // put request method
-app.put('/api/v1/notes/:id', (request, response) => { // listen for put requests from this url, id being the notes identifier for editing
+app.put('/api/v1/notes/:id', (request, response) => { // listen for put requests from this path then execute handler, id being the notes identifier for editing
   const { title, listItems } = request.body; // create title and listItems variables from the request body 
   const id = request.params.id; // take the id from the request parameters
   let noteWasFound = false; // create variable for found note and by default set to false
